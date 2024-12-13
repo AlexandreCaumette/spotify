@@ -1,14 +1,12 @@
 import streamlit as st
+from streamlit.delta_generator import DeltaGenerator
 import polars as pl
 import os
 
 
 base_dir = os.path.join(os.path.expanduser('~'), 'Downloads')
 
-def update_spotify_folder():
-    st.session_state['spotify_folder'] = os.path.join(base_dir, st.session_state['spotify_folder_selectbox'])
-
-def generate_unique_parquet(filenames):
+def generate_unique_parquet():
     list_df = []
     
     schema = {
@@ -33,7 +31,7 @@ def generate_unique_parquet(filenames):
         "incognito_mode": pl.Boolean
     }
     
-    for f in filenames:
+    for f in st.session_state.uploaded_files:
         list_df.append(pl.read_json(f, schema=schema))
         
     df = pl.concat(list_df)
@@ -58,31 +56,28 @@ def generate_unique_parquet(filenames):
     
     st.session_state['initial_dataframe'] = df
         
-def render_tab_data(tab):
-    tab.header("Sélection du dossier d'historique partagé par Spotify")
+def render_tab_data(tab: DeltaGenerator):
+    tab.header("Chargement de l'historique Spotify")
+    
+    tab.subheader("Sélection des données partagées par Spotify")
+    
+    tab.file_uploader(label='Sélectionnez les fichiers de Spotify',
+                      type='.json',
+                      accept_multiple_files=True,
+                      key='uploaded_files',
+                      help="VOus avez récupéré de Spotify un .zip, dont vous pouvez extraire plusieurs fichiers .json qui constituent votre historique d'écoute.")
 
-    filenames = os.listdir(base_dir)
-    filenames = [f for f in filenames if os.path.isdir(os.path.join(base_dir, f))]
-    folder_names = [f for f in filenames if 'spotify' in f.lower()]
+    tab.subheader("Affichage des fichiers audios qui seront chargés")
+    
+    if 'uploaded_files' in st.session_state:            
+        filenames = [f.name for f in st.session_state['uploaded_files'] if 'Audio' in f.name]
 
-    tab.selectbox(label='Sélectionnez le dossier extrait de Spotify',
-                                        options=folder_names,
-                                        key='spotify_folder_selectbox',
-                                        help="Spotify vous a envoyé un mail avec un lien pour télécharger un .zip de votre historique, vous devez sélectionner le dossier qui contient l'extraction de ce zip (par défaut dans votre dossier téléchargement).",
-                                        on_change=update_spotify_folder)
-
-    if 'spotify_folder' in st.session_state:
-        tab.write('Vous avez sélectionné le dossier : `%s`' % st.session_state.spotify_folder)
+        tab.dataframe(pl.DataFrame(filenames, schema=['Fichiers Audio']),
+                      width=600)
         
-        spotify_history_folder = os.path.join(st.session_state.spotify_folder, 'Spotify Extended Streaming History')
-            
-        filenames = [os.path.join(spotify_history_folder, f) for f in os.listdir(spotify_history_folder) if 'Audio' in f]
-
-        tab.dataframe(pl.DataFrame(filenames, schema=['Fichiers Audio']))
-        
-        tab.button(label='Utiliser ces fichiers',
-            on_click=generate_unique_parquet,
-            args=[filenames])
+        if len(filenames) > 0:
+            tab.button(label='Utiliser ces fichiers',
+                on_click=generate_unique_parquet)
 
     tab.divider()
 
