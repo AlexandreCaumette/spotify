@@ -37,11 +37,11 @@ def generate_unique_parquet():
     df = pl.concat(list_df)
     
     df = df.rename(mapping={
-        'master_metadata_album_artist_name': 'ARTISTE',
-        'master_metadata_track_name': 'TITRE'
+        'master_metadata_album_artist_name': 'Artiste',
+        'master_metadata_track_name': 'Titre'
     })
     
-    df = df.with_columns(pl.concat_str([pl.col('ARTISTE'), pl.col('TITRE')], separator=' - ').alias('ARTISTE_TITRE'))
+    df = df.with_columns(pl.concat_str([pl.col('Artiste'), pl.col('Titre')], separator=' - ').alias('Artiste - Titre'))
         
     df = df.with_columns(pl.Series('duration_seconds', df['ms_played'] / 1000))
     df = df.with_columns(pl.Series('duration_minutes', df['duration_seconds'] / 60))
@@ -70,7 +70,7 @@ def render_tab_data(tab: DeltaGenerator):
     tab.subheader("Affichage des fichiers audios qui seront chargés")
     
     if 'uploaded_files' in st.session_state:            
-        filenames = [f.name for f in st.session_state['uploaded_files'] if 'Audio' in f.name]
+        filenames = [f.name for f in st.session_state['uploaded_files'] if f.name.startswith('Streaming_History_Audio_')]
 
         tab.dataframe(pl.DataFrame(filenames, schema=['Fichiers Audio']),
                       width=600)
