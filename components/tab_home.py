@@ -6,7 +6,7 @@ SPOTIFY_NAME = '**:green[Spotify] 🟢**'
 DATA_TAB_NAME = "**:orange[Données] 💾**"
 
 def render_tab_home(tab: DeltaGenerator):
-    tab.header("Bienvenu dur Spotify Analyzer !")
+    tab.header("Bienvenu sur Spotify Analyzer !")
     
     tab.subheader("Qu'est-ce que c'est ?")
     
@@ -16,7 +16,7 @@ def render_tab_home(tab: DeltaGenerator):
     Chaque fin d'année, {SPOTIFY_NAME} publie pour tout un chacun sa rétrospective de l'année,
     mais ne fait pas de lien avec les statistiques de l'année précédente.
     
-    {APP_NAME} intervient pour compléter la rétrospective de l'année de {SPOTIFY_NAME}, et afficher des statistiques clés
+    {APP_NAME} intervient pour compléter la rétrospective de l'année, et afficher des statistiques clés
     sur les habitudes d'écoute sur tout votre historique.
     """
     
@@ -44,13 +44,13 @@ def render_tab_home(tab: DeltaGenerator):
     tab.subheader("Qu'est-ce que je dois faire ?")
     
     third_body = f"""
-    **1. Obtenir son historique d'écoute {SPOTIFY_NAME}**
+    **1. Obtenir son historique d'écoute**
     
     - Il faut se rendre sur https://www.spotify.com/fr/account/privacy/ et se connecter à son compte {SPOTIFY_NAME}.
     - Il faut ensuite cocher la case pour demander l'intégralité de son historique d'écoute.
     - Puis demander l'envoi de ses données.
     
-    **2. Récupérer son historique d'écoute {SPOTIFY_NAME}**
+    **2. Récupérer son historique d'écoute**
     
     - Après quelques jours, vous recevrez un mail de {SPOTIFY_NAME} avec un lien pour télécharger un `.zip` de votre historique d'écoute.
     - Il faut cliquer sur le lien pour télécharger l'historique.
