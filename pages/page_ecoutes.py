@@ -1,39 +1,33 @@
 import streamlit as st
 
 from components.bar_chart import bar_chart
+from components.chiffres_cles import main_chiffres_cles
 from components.dataframe import dataframe
+from components.filtres import main_filtres
 from data.spotify_cube import Cube
-
-cube = Cube()
 
 
 def main_ecoutes():
     measure = "Nombre de titres écoutés"
-    ################################################################################################
 
-    st.header("Statistiques sur tout l'historique")
+    with st.expander("Contexte", expanded=True):
+        st.markdown("""
+        Cette page permet d'explorer ces statistiques par nombre d'écoutes de chaque titre, sur la période sélectionnée.
+        """)
 
-    columns_metrics = st.columns([1, 1, 1])
+    st.divider()
 
-    columns_metrics[0].metric(
-        label="Nombre d'artistes écoutés sur tout l'historique",
-        value=cube.number_of_artists(),
-    )
+    date_debut, date_fin = main_filtres()
 
-    columns_metrics[1].metric(
-        label="Nombre de titres écoutés sur tout l'historique",
-        value=cube.number_of_titles(),
-    )
+    cube = Cube(config={"date_debut": date_debut, "date_fin": date_fin})
 
-    columns_metrics[2].metric(
-        label="Durée d'écoute sur tout l'historique", value=cube.duration()
-    )
+    main_chiffres_cles(cube=cube)
 
-    st.subheader("Classement des écoutes par artiste sur tout l'historique")
+    st.subheader("Classement des écoutes par artiste")
 
     dataframe(data=cube.artists_ranking(over=measure))
 
-    st.subheader("Classement des écoutes par titre sur tout l'historique")
+    st.subheader("Classement des écoutes par titre")
 
     dataframe(data=cube.titles_ranking(over=measure))
 

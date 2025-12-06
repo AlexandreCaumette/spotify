@@ -17,6 +17,8 @@ def main():
 
     st.title("Rétrospective de tout mon historique Spotify")
 
+    st.divider()
+
     with st.sidebar:
         page_accueil = st.Page(
             page=main_accueil,
