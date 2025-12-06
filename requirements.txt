@@ -1,2 +1,2 @@
-streamlit
-polars
+streamlit==1.52.1
+polars==1.35.2

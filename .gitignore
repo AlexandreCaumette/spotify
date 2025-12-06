@@ -1,1 +1,8 @@
+# L'environnement virtuel ne contient pas de code à conserver.
+.venv
+
+# La configuration de l'environnement de travail dans VS Code n'est pas à conserver.
+.vscode
+
+# Le cache python ne contient pas de code à conserver.
 __pycache__/

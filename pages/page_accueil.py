@@ -1,15 +1,15 @@
 import streamlit as st
-from streamlit.delta_generator import DeltaGenerator
 
-APP_NAME = '**:red[Spotify Analyzer]**'
-SPOTIFY_NAME = '**:green[Spotify] 🟢**'
+APP_NAME = "**:red[Spotify Analyzer]**"
+SPOTIFY_NAME = "**:green[Spotify] 🟢**"
 DATA_TAB_NAME = "**:orange[Données] 💾**"
 
-def render_tab_home(tab: DeltaGenerator):
-    tab.header("Bienvenu sur Spotify Analyzer !")
-    
-    tab.subheader("Qu'est-ce que c'est ?")
-    
+
+def main_accueil():
+    st.header("Bienvenu sur Spotify Analyzer !")
+
+    st.subheader("Qu'est-ce que c'est ?")
+
     first_body = f"""
     {APP_NAME} est un outil d'analyse d'historique d'écoute {SPOTIFY_NAME}.
     
@@ -19,13 +19,13 @@ def render_tab_home(tab: DeltaGenerator):
     {APP_NAME} intervient pour compléter la rétrospective de l'année, et afficher des statistiques clés
     sur les habitudes d'écoute sur tout votre historique.
     """
-    
-    tab.markdown(body=first_body)
-    
-    tab.divider()
-    
-    tab.subheader("Comment ça marche ?")
-    
+
+    st.markdown(body=first_body)
+
+    st.divider()
+
+    st.subheader("Comment ça marche ?")
+
     second_body = f"""
     Il est possible de récupérer auprès de {SPOTIFY_NAME} son historique intégral d'écoute, sous la forme de fichiers `.json`.
     
@@ -34,15 +34,15 @@ def render_tab_home(tab: DeltaGenerator):
     Vous pourrez ensuite consulter les onglets :orange[Analyses par écoutes] 📊 et :orange[Analyses par durées] ⌚, pour découvrir des statistiques
     intéressantes sur vos habitudes d'écoute.
     
-    De manière arbitraire, il a été décidé que seules les écoutes supérieures à 20 secondes sont prises en compte dans les statistiques.
+    De manière arbitraire, il a été décidé que seules les écoutes supérieures à **20 secondes** sont prises en compte dans les statistiques.
     """
-    
-    tab.markdown(body=second_body)
-    
-    tab.divider()
-    
-    tab.subheader("Qu'est-ce que je dois faire ?")
-    
+
+    st.markdown(body=second_body)
+
+    st.divider()
+
+    st.subheader("Qu'est-ce que je dois faire ?")
+
     third_body = f"""
     **1. Obtenir son historique d'écoute**
     
@@ -61,5 +61,5 @@ def render_tab_home(tab: DeltaGenerator):
     
     - Vous n'avez plus qu'à uploader ces fichiers .json dans l'onglet {DATA_TAB_NAME}.
     """
-    
-    tab.markdown(body=third_body)
+
+    st.markdown(body=third_body)
