@@ -64,6 +64,8 @@ def generate_unique_parquet():
 
     st.session_state["initial_dataframe"] = df
 
+    st.rerun()
+
 
 def main_donnees():
     st.header("Chargement de l'historique Spotify")

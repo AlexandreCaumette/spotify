@@ -1,5 +1,6 @@
 import streamlit as st
 
+from components.animated_bar_chart import main_animated_bar_chart
 from components.bar_chart import bar_chart
 from components.chiffres_cles import main_chiffres_cles
 from components.dataframe import dataframe
@@ -25,8 +26,6 @@ def main_durees():
     dataframe(data=cube.titles_ranking(over=measure))
 
     st.divider()
-
-    ################################################################################################
 
     st.header("Statistiques annuelles")
 
@@ -139,3 +138,5 @@ def main_durees():
                 months=st.session_state[f"multiselect_months_{measure}"], over=measure
             ),
         )
+
+    main_animated_bar_chart(df=cube.df)
